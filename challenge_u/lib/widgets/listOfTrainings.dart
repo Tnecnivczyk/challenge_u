@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../klassen/sportart.dart';
-import '../klassen/training.dart';
+import '../classes/sport.dart';
+import '../classes/training.dart';
 
-class TrainingsListe extends StatelessWidget {
+class ListOfTrainings extends StatelessWidget {
   List<Training> trainings;
 
   Function trainingEntfernen;
 
-  TrainingsListe(this.trainings, this.trainingEntfernen);
+  ListOfTrainings(this.trainings, this.trainingEntfernen);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class TrainingsListe extends StatelessWidget {
                     "x${trainings.elementAt(index).wiederholungen.toString()}"),
               ),
               title: Text(
-                Sportart.bouldern.asString(trainings.elementAt(index).sportart),
+                Sport.bouldern.enumToString(trainings.elementAt(index).sport),
                 style: Theme.of(context).textTheme.headline5,
               ),
               subtitle: Text(DateFormat("dd.MM.yyyy")

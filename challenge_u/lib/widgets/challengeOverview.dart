@@ -1,17 +1,24 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-import 'package:challenge_u/klassen/challenge.dart';
-import 'package:challenge_u/klassen/training.dart';
-import 'package:challenge_u/klassen/ziel.dart';
+import 'package:challenge_u/classes/challenge.dart';
+import 'package:challenge_u/classes/training.dart';
+import 'package:challenge_u/classes/goal.dart';
 import 'package:flutter/material.dart';
 
-import '../klassen/sportart.dart';
+import '../classes/sport.dart';
 
-class ChallengeUebersicht extends StatelessWidget {
+class ChallengeOverview extends StatefulWidget {
   List<Challenge> challenges;
+  final Function removeChallenge;
 
-  ChallengeUebersicht(this.challenges, {super.key});
+  ChallengeOverview(this.challenges, this.removeChallenge);
 
+  @override
+  State<ChallengeOverview> createState() => _ChallengeoverviewState();
+}
+
+class _ChallengeoverviewState extends State<ChallengeOverview> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -22,25 +29,41 @@ class ChallengeUebersicht extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
           ),
           Row(
-            children: challenges.map((challenge) {
+            children: widget.challenges.map((challenge) {
               return Flexible(
                 fit: FlexFit.loose,
                 flex: 1,
                 child: Card(
                   child: Column(
                     children: [
-                      Text(
-                        challenge.name,
-                        style: Theme.of(context).textTheme.headline6,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Text(
+                              challenge.name,
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: Theme.of(context).errorColor,
+                            ),
+                            onPressed: () =>
+                                widget.removeChallenge(challenge.id),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 5,
                       ),
                       Column(
-                        children: challenge.ziele.map((ziel) {
+                        children: challenge.goals.map((ziel) {
                           return Column(children: [
                             Text(
-                                "${Sportart.bouldern.asString(ziel.sportart)} ${ziel.tageGemacht}/${ziel.tageMuss}"),
+                                "${Sport.bouldern.enumToString(ziel.sport)} ${ziel.tageGemacht.toStringAsFixed(0)}/${ziel.tageMuss.toStringAsFixed(0)}"),
                             Row(
                               children: [
                                 Flexible(

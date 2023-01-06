@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-import '../klassen/challenge.dart';
-import '../klassen/training.dart';
-import '../klassen/ziel.dart';
+import '../classes/challenge.dart';
+import '../classes/training.dart';
+import '../classes/goal.dart';
 
-class WochenFortschritt extends StatelessWidget {
+class WeeklyProgress extends StatelessWidget {
   List<Challenge> challenges;
   List<Training> trainings;
 
-  WochenFortschritt(this.challenges, this.trainings);
+  WeeklyProgress(this.challenges, this.trainings);
 
   List<double> get fortschritt {
     double wocheMuss = 0.0;
     double wocheGemacht = 0.0;
     for (Challenge challenge in challenges) {
-      for (Ziel ziel in challenge.ziele) {
+      for (Goal ziel in challenge.goals) {
         wocheMuss += ziel.tageMuss;
         wocheGemacht += ziel.tageGemacht;
       }

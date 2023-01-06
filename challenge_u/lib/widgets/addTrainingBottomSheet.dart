@@ -2,34 +2,34 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../klassen/challenge.dart';
-import '../klassen/training.dart';
-import '../klassen/sportart.dart';
+import '../classes/challenge.dart';
+import '../classes/training.dart';
+import '../classes/sport.dart';
 
-class TrainingEintragen extends StatefulWidget {
+class AddTrainingBottomSheet extends StatefulWidget {
   final Function trainingEintragen;
 
-  TrainingEintragen(this.trainingEintragen);
+  AddTrainingBottomSheet(this.trainingEintragen);
 
   @override
-  State<TrainingEintragen> createState() => _TrainingEintragenState();
+  State<AddTrainingBottomSheet> createState() => _AddTrainingBottomSheetState();
 }
 
-class _TrainingEintragenState extends State<TrainingEintragen> {
+class _AddTrainingBottomSheetState extends State<AddTrainingBottomSheet> {
   final List<bool> _isSelected =
-      List.generate(Sportart.values.length, (_) => false);
+      List.generate(Sport.values.length, (_) => false);
 
   final _anzahlDerWiederholungen = TextEditingController();
 
   DateTime _ausgewaehltesDatum = DateTime.now();
 
-  Sportart get _getSportart {
+  Sport get _getSport {
     for (int i = 0; i < _isSelected.length; i++) {
       if (_isSelected.elementAt(i)) {
-        return Sportart.beintraining.indexAtAsEnum(i);
+        return Sport.beintraining.indexToEnum(i);
       }
     }
-    return Sportart.nichtAusgewaehlt;
+    return Sport.nichtAusgewaehlt;
   }
 
   double get _getWiederholungen {
@@ -81,7 +81,7 @@ class _TrainingEintragenState extends State<TrainingEintragen> {
             child: SizedBox(
               height: 220,
               child: ListView.builder(
-                itemCount: Sportart.values.length - 1,
+                itemCount: Sport.values.length - 1,
                 itemBuilder: ((context, index) {
                   return OutlinedButton(
                       style: OutlinedButton.styleFrom(
@@ -94,7 +94,7 @@ class _TrainingEintragenState extends State<TrainingEintragen> {
                                 : Theme.of(context).colorScheme.secondary),
                       ),
                       onPressed: () => _auswahl(index),
-                      child: Text(Sportart.bouldern.indexAtAsString(index)));
+                      child: Text(Sport.bouldern.indexToString(index)));
                 }),
               ),
             ),
@@ -119,7 +119,7 @@ class _TrainingEintragenState extends State<TrainingEintragen> {
           ),
           TextButton(
               onPressed: () => widget.trainingEintragen(
-                  _getSportart, _getWiederholungen, _ausgewaehltesDatum),
+                  _getSport, _getWiederholungen, _ausgewaehltesDatum),
               child: Text("Training eintragen"))
         ],
       ),
