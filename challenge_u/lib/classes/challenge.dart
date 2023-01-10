@@ -1,4 +1,3 @@
-import 'package:challenge_u/classes/sport.dart';
 import 'package:challenge_u/classes/training.dart';
 
 import '../classes/goal.dart';
@@ -23,14 +22,6 @@ class Challenge {
       }
       return false;
     });
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'goals': goals.map((goal) => goal.toMap()).toList(),
-    };
   }
 
   // Updates the completed training days for a goal with a lis of trainings

@@ -1,4 +1,4 @@
-package com.example.challenge_u
+package com.vincaapps.challenge_u
 
 import io.flutter.embedding.android.FlutterActivity
 

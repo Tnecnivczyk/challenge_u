@@ -63,6 +63,13 @@ class _AddChallengeBottomSheetState extends State<AddChallengeBottomSheet> {
         }
       }
       _isSelected[index] = 2;
+      Goal renewGoal = _ziele.firstWhere(
+          (goal) => goal.sport == Sport.nichtAusgewaehlt.indexToEnum(index),
+          orElse: () =>
+              Goal(Sport.nichtAusgewaehlt, 0, 0, DateTime.now().toString()));
+      _anzahlDerWiederholungen.text =
+          renewGoal.wiederholungenMuss.toStringAsFixed(0);
+      _anzahlDerWochentage.text = renewGoal.tageMuss.toStringAsFixed(0);
     });
   }
 
@@ -81,7 +88,11 @@ class _AddChallengeBottomSheetState extends State<AddChallengeBottomSheet> {
         _anzahlDerWochentage.text.isEmpty) {
       return false;
     }
-    if (double.parse(_anzahlDerWiederholungen.text) < 1 &&
+    if (double.tryParse(_anzahlDerWiederholungen.text) == null ||
+        double.tryParse(_anzahlDerWochentage.text) == null) {
+      return false;
+    }
+    if (double.parse(_anzahlDerWiederholungen.text) < 1 ||
         double.parse(_anzahlDerWochentage.text) < 1) {
       return false;
     }
@@ -112,7 +123,8 @@ class _AddChallengeBottomSheetState extends State<AddChallengeBottomSheet> {
             child: TextField(
               controller: _anzahlDerWochentage,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: "Anzahl der Wochentage"),
+              decoration:
+                  const InputDecoration(labelText: "Anzahl der Wochentage"),
             ),
           ),
           Card(
@@ -121,7 +133,7 @@ class _AddChallengeBottomSheetState extends State<AddChallengeBottomSheet> {
               controller: _anzahlDerWiederholungen,
               keyboardType: TextInputType.number,
               decoration:
-                  InputDecoration(labelText: "Anzahl der Wiederholungen"),
+                  const InputDecoration(labelText: "Anzahl der Wiederholungen"),
             ),
           ),
           Card(

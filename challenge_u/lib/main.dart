@@ -27,20 +27,34 @@ class MyApp extends StatelessWidget {
       title: 'Challenge U',
       theme: ThemeData(
         textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: const TextStyle(
-                fontFamily: "Quicksand",
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-              headline5: const TextStyle(
-                fontFamily: "Quicksand",
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-              ),
+            headline6: const TextStyle(
+              fontFamily: "Quicksand",
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
+            headline5: const TextStyle(
+              fontFamily: "Quicksand",
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+            ),
+            bodyText2: const TextStyle(
+                fontFamily: "OpenSans",
+                fontSize: 14,
+                color: Colors.black), // style for body text
+            caption: const TextStyle(
+                fontFamily: "OpenSans",
+                fontSize: 12,
+                color: Colors.grey)), // style for captions
+        buttonTheme: ButtonThemeData(
+            buttonColor: Colors.lightGreen.shade300,
+            textTheme: ButtonTextTheme.primary),
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.teal,
+          primaryColorDark: Colors.teal[800],
           accentColor: Colors.lightGreen.shade300,
+          backgroundColor: Colors.white,
+          cardColor: Colors.grey[50],
+          errorColor: Colors.red[400],
         ),
       ),
       home: MyHomePage(),

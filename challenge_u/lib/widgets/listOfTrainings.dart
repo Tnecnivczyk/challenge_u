@@ -26,7 +26,7 @@ class ListOfTrainings extends StatelessWidget {
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 radius: 30,
                 child: Text(
-                    "x${trainings.elementAt(index).wiederholungen.toString()}"),
+                    "x${trainings.elementAt(index).wiederholungen.toStringAsFixed(0)}"),
               ),
               title: Text(
                 Sport.bouldern.enumToString(trainings.elementAt(index).sport),
