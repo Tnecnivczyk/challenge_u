@@ -1,5 +1,5 @@
-import 'package:challenge_u/widgets/logIn.dart';
-import 'package:challenge_u/widgets/signUp.dart';
+import 'package:challenge_u/widgets/loginWidgets/logIn.dart';
+import 'package:challenge_u/widgets/loginWidgets/signUp.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 

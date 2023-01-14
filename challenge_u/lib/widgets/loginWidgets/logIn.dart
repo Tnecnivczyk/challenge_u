@@ -1,11 +1,11 @@
 import 'package:challenge_u/main.dart';
+import 'package:challenge_u/widgets/forgotPassword.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
+import '../classes/Utils.dart';
 
 class LogIn extends StatefulWidget {
   final VoidCallback onClickSignUp;
@@ -31,7 +31,7 @@ class _LogInState extends State<LogIn> {
         password: passwordController.text.trim(),
       );
     } on FirebaseAuthException catch (e) {
-      print(e);
+      Utils.showSnackBar(e.message, context);
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
@@ -40,10 +40,10 @@ class _LogInState extends State<LogIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Challenge U"),
+        title: const Text("Challenge U"),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             const SizedBox(
@@ -77,12 +77,27 @@ class _LogInState extends State<LogIn> {
             const SizedBox(
               height: 25,
             ),
+            GestureDetector(
+              child: Text(
+                'Forgot Password?',
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    decoration: TextDecoration.underline,
+                    fontSize: 14),
+              ),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ForgotPassword(),
+              )),
+            ),
             RichText(
               text: TextSpan(
                 children: [
-                  TextSpan(
+                  const TextSpan(
                     text: 'No account? ',
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                    ),
                   ),
                   TextSpan(
                     recognizer: TapGestureRecognizer()
@@ -90,7 +105,7 @@ class _LogInState extends State<LogIn> {
                     text: 'Sign Up',
                     style: TextStyle(
                         decoration: TextDecoration.underline,
-                        color: Theme.of(context).primaryColor),
+                        color: Theme.of(context).colorScheme.primary),
                   )
                 ],
               ),

@@ -1,6 +1,8 @@
+import 'package:challenge_u/classes/Utils.dart';
 import 'package:challenge_u/widgets/logIn.dart';
 import 'package:challenge_u/widgets/overview.dart';
 import 'package:challenge_u/widgets/signInSignUpManager.dart';
+import 'package:challenge_u/widgets/verifyEmail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: Utils.messengerKey,
       navigatorKey: navigatorKey,
       title: 'Challenge U',
       theme: ThemeData(
@@ -67,7 +70,7 @@ class MyHomePage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const Overview();
+            return const VerifyEmail();
           } else if (snapshot.hasError) {
             return Center(
               child: Text('Something went wrong'),
