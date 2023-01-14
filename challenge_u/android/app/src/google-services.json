@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "673819059325",
+    "project_id": "challengeu-1e71c",
+    "storage_bucket": "challengeu-1e71c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:673819059325:android:58dfbac11542ca443efd14",
+        "android_client_info": {
+          "package_name": "com.vincaapps.challenge_u"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "673819059325-0787p1ta3jqkug29t1slijqhqcp93bpb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_qRyF7yCrM8652WtYA91f1DkoJ8K0R6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "673819059325-0787p1ta3jqkug29t1slijqhqcp93bpb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
