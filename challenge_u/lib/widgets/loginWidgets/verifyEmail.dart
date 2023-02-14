@@ -3,11 +3,14 @@ import 'dart:math';
 
 import 'package:challenge_u/classes/Utils.dart';
 import 'package:challenge_u/main.dart';
-import 'package:challenge_u/widgets/overview.dart';
+import 'package:challenge_u/widgets/appWidgets/overview/overview.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+
+import '../../classes/userChallengeU.dart';
 
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({super.key});
@@ -17,7 +20,7 @@ class VerifyEmail extends StatefulWidget {
 }
 
 class _VerifyEmailState extends State<VerifyEmail> {
-  bool isEmailVerified = false;
+  bool _isEmailVerified = false;
   bool canResent = false;
   Timer? timer;
   @override
@@ -26,10 +29,12 @@ class _VerifyEmailState extends State<VerifyEmail> {
     super.dispose();
   }
 
+  @override
   void initState() {
+    super.initState();
     setState(() {
-      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-      if (!isEmailVerified) {
+      _isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+      if (!_isEmailVerified) {
         sendVerifyEmail();
 
         timer = Timer.periodic(Duration(seconds: 3), (_) => checkEmailStatus());
@@ -40,9 +45,9 @@ class _VerifyEmailState extends State<VerifyEmail> {
   Future checkEmailStatus() async {
     await FirebaseAuth.instance.currentUser!.reload();
     setState(() {
-      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+      _isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
     });
-    if (isEmailVerified) {
+    if (_isEmailVerified) {
       timer?.cancel();
     }
   }
@@ -60,13 +65,13 @@ class _VerifyEmailState extends State<VerifyEmail> {
         canResent = true;
       });
     } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(e.message, context);
+      Utils.showErrorSnackBar(e.message, context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return isEmailVerified
+    return _isEmailVerified
         ? const Overview()
         : Scaffold(
             appBar: AppBar(

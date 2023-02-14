@@ -1,5 +1,9 @@
-import '../classes/Utils.dart';
-import '../main.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+
+import '../../classes/Utils.dart';
+import '../../classes/userChallengeU.dart';
+import '../../main.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -17,6 +21,8 @@ class _SignUpState extends State<SignUp> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  final _usernameController = TextEditingController();
+  DateTime _birthday = DateTime.now();
 
   Future signUp() async {
     final isValid = formKey.currentState!.validate();
@@ -33,11 +39,40 @@ class _SignUpState extends State<SignUp> {
           email: emailController.text.trim(),
           password: passwordController.text.trim(),
         );
+        _createUser();
       } on FirebaseAuthException catch (e) {
-        Utils.showSnackBar(e.message, context);
+        Utils.showErrorSnackBar(e.message, context);
       }
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
+  }
+
+  void _datePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    ).then((datum) {
+      if (datum == null) {
+        return;
+      }
+      setState(() {
+        _birthday = datum;
+      });
+    });
+  }
+
+  void _createUser() async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final docUser =
+        FirebaseFirestore.instance.collection('users').doc(firebaseUser?.uid);
+    final user = UserChallengeU(
+        firebaseUser!.uid,
+        _usernameController.text.trim(),
+        firebaseUser.email.toString(),
+        _birthday);
+    await docUser.set(user.toMap());
   }
 
   @override
@@ -54,6 +89,16 @@ class _SignUpState extends State<SignUp> {
             children: [
               const SizedBox(
                 height: 100,
+              ),
+              TextFormField(
+                controller: _usernameController,
+                textInputAction: TextInputAction.next,
+                decoration: const InputDecoration(labelText: 'Username'),
+                validator: (email) => null,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+              ),
+              const SizedBox(
+                height: 5,
               ),
               TextFormField(
                 controller: emailController,
@@ -90,6 +135,16 @@ class _SignUpState extends State<SignUp> {
                     value != null && value != passwordController.text
                         ? 'Password doesn\'t match'
                         : null,
+              ),
+              TextField(
+                decoration: InputDecoration(
+                    labelText: DateFormat("dd.MM.yy").format(_birthday)),
+              ),
+              TextButton(
+                onPressed: _datePicker,
+                child: const Text(
+                  "Choose other date",
+                ),
               ),
               const SizedBox(
                 height: 20,

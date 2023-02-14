@@ -1,57 +1,71 @@
-import 'package:challenge_u/classes/training.dart';
+// The Challenge class represents a datamodel to create a challenge from a list of goals.
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../classes/goal.dart';
+import '../classes/training.dart';
 
 class Challenge {
   String name;
-  List<Goal> goals = [];
   String id;
 
+  // constructor that takes the name and id as arguments and initializes the name and id properties
   Challenge(this.name, this.id);
 
-  void addGoal(Goal ziel) {
-    ziel.challengeID = id;
-    goals.add(ziel);
+  // method to add a goal to the list of goals for the challenge
+  void linkGoal(Goal goal) {
+    goal.challengeID = id;
   }
 
-  void removeGoal(Goal ziel) {
-    goals.removeWhere((element) {
-      if (element.sport == ziel.sport &&
-          element.wiederholungenMuss == ziel.wiederholungenMuss) {
-        return true;
-      }
-      return false;
-    });
+  void createChallenge() {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('challenges')
+        .doc(id)
+        .set(toMap());
   }
 
-  // Updates the completed training days for a goal with a lis of trainings
-  void updateDaysCompleted(Goal goal, List<Training> currentTrainings) {
-    // Initialize a map to track the number of repetitions performed on each day.
-    Map<int, double> dayToRepetitions = {};
-    // Initialize a variable to track completed days.
-    int completedDays = 0;
-    // Iterate over the current training sessions.
-    for (Training training in currentTrainings) {
-      // Check if the training session is relevant to the goal.
-      if (training.sport == goal.sport) {
-        // Check if the training session occurred on a day that has already been counted.
-        if (dayToRepetitions.containsKey(training.datum.day)) {
-          // If the day has already been counted, add the training session's repetitions to the count for that day.
-          dayToRepetitions[training.datum.day] =
-              (dayToRepetitions[training.datum.day]! + training.wiederholungen);
-        } else {
-          // If the day has not already been counted, add a new entry for the day.
-          dayToRepetitions[training.datum.day] = training.wiederholungen;
-        }
-      }
-    }
-    // Counts the numer of days on which the goal was achieved
-    dayToRepetitions.forEach((key, value) {
-      if (value >= goal.wiederholungenMuss) {
-        completedDays++;
-      }
-    });
-    // Update the goal's completed days count.
-    goal.tageGemacht = completedDays;
+  static Stream<List<Challenge>> readChallenges() {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('challenges')
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map(
+                (doc) => Challenge.fromMap(
+                  doc.data(),
+                ),
+              )
+              .toList(),
+        );
+  }
+
+  static void deleteChallenge(String id) {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('challenges')
+        .doc(id)
+        .delete();
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'id': id,
+    };
+  }
+
+  static Challenge fromMap(Map<String, dynamic> map) {
+    return Challenge(
+      map['name'],
+      map['id'],
+    );
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../classes/challenge.dart';
-import '../classes/training.dart';
-import '../classes/goal.dart';
+import '../../../classes/challenge.dart';
+import '../../../classes/training.dart';
+import '../../../classes/goal.dart';
 
 class WeeklyProgress extends StatelessWidget {
   List<Challenge> challenges;
@@ -10,16 +10,11 @@ class WeeklyProgress extends StatelessWidget {
 
   WeeklyProgress(this.challenges, this.trainings);
 
-  List<double> get fortschritt {
-    double wocheMuss = 0.0;
-    double wocheGemacht = 0.0;
-    for (Challenge challenge in challenges) {
-      for (Goal ziel in challenge.goals) {
-        wocheMuss += ziel.tageMuss;
-        wocheGemacht += ziel.tageGemacht;
-      }
-    }
-    return [wocheGemacht, wocheMuss];
+  List<double> get progress {
+    double toDo = 0.0;
+    double done = 0.0;
+    for (Challenge challenge in challenges) {}
+    return [done, toDo];
   }
 
   @override
@@ -50,9 +45,9 @@ class WeeklyProgress extends StatelessWidget {
                         ),
                       ),
                       FractionallySizedBox(
-                        widthFactor: fortschritt[0] == 0.0
+                        widthFactor: progress[0] == 0.0
                             ? 0.0
-                            : fortschritt[0] / fortschritt[1],
+                            : progress[0] / progress[1],
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),

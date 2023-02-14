@@ -1,11 +1,11 @@
 import 'package:challenge_u/main.dart';
-import 'package:challenge_u/widgets/forgotPassword.dart';
+import 'package:challenge_u/widgets/loginWidgets/forgotPassword.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../classes/Utils.dart';
+import '../../classes/Utils.dart';
 
 class LogIn extends StatefulWidget {
   final VoidCallback onClickSignUp;
@@ -31,7 +31,7 @@ class _LogInState extends State<LogIn> {
         password: passwordController.text.trim(),
       );
     } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(e.message, context);
+      Utils.showErrorSnackBar(e.message, context);
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
