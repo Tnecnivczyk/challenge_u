@@ -47,7 +47,14 @@ class _LogInState extends State<LogIn> {
         child: Column(
           children: [
             const SizedBox(
-              height: 100,
+              height: 50,
+            ),
+            Padding(
+              padding: EdgeInsets.all(8),
+              child: Text(
+                'Login',
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
             ),
             TextFormField(
               controller: emailController,
@@ -71,8 +78,20 @@ class _LogInState extends State<LogIn> {
               height: 20,
             ),
             ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(
+                      Theme.of(context).colorScheme.primary)),
               onPressed: signIn,
-              child: Text('Sign In'),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Login',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize:
+                          Theme.of(context).textTheme.headlineMedium!.fontSize),
+                ),
+              ),
             ),
             const SizedBox(
               height: 25,
@@ -89,6 +108,9 @@ class _LogInState extends State<LogIn> {
                 builder: (context) => ForgotPassword(),
               )),
             ),
+            const SizedBox(
+              height: 5,
+            ),
             RichText(
               text: TextSpan(
                 children: [
@@ -96,7 +118,7 @@ class _LogInState extends State<LogIn> {
                     text: 'No account? ',
                     style: TextStyle(
                       color: Colors.grey,
-                      fontSize: 14,
+                      fontSize: 18,
                     ),
                   ),
                   TextSpan(
@@ -104,8 +126,10 @@ class _LogInState extends State<LogIn> {
                       ..onTap = widget.onClickSignUp,
                     text: 'Sign Up',
                     style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Theme.of(context).colorScheme.primary),
+                      decoration: TextDecoration.underline,
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 18,
+                    ),
                   )
                 ],
               ),

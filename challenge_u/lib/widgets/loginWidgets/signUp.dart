@@ -88,7 +88,14 @@ class _SignUpState extends State<SignUp> {
           child: Column(
             children: [
               const SizedBox(
-                height: 100,
+                height: 50,
+              ),
+              Padding(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  'Sign Up',
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
               ),
               TextFormField(
                 controller: _usernameController,
@@ -136,22 +143,46 @@ class _SignUpState extends State<SignUp> {
                         ? 'Password doesn\'t match'
                         : null,
               ),
-              TextField(
-                decoration: InputDecoration(
-                    labelText: DateFormat("dd.MM.yy").format(_birthday)),
+              const SizedBox(
+                height: 5,
               ),
-              TextButton(
-                onPressed: _datePicker,
-                child: const Text(
-                  "Choose other date",
+              Row(children: [
+                Expanded(
+                    child: Text(
+                  DateFormat("dd.MM.yy").format(_birthday),
+                  style: Theme.of(context).textTheme.titleMedium,
+                )),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: OutlinedButton(
+                    onPressed: _datePicker,
+                    child: Text(
+                      "Change Birthday",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
                 ),
-              ),
+              ]),
               const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(
+                        Theme.of(context).colorScheme.primary)),
                 onPressed: signUp,
-                child: const Text('Create Account'),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Create Account',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontSize: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .fontSize),
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 25,

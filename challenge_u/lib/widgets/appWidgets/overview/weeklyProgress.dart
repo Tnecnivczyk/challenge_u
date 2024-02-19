@@ -20,14 +20,14 @@ class WeeklyProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 6,
+      elevation: 5,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text("Wöchentlicher Fortschritt"),
+            child: Text("Weekly Progress"),
           ),
           Row(
             children: [
@@ -61,7 +61,7 @@ class WeeklyProgress extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
         ],
       ),
