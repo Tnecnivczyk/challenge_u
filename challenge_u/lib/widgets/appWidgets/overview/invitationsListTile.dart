@@ -2,20 +2,18 @@ import 'package:challenge_u/classes/invitation.dart';
 import 'package:challenge_u/classes/userChallengeU.dart';
 import 'package:challenge_u/widgets/appWidgets/overview/statsForUserChallenge.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../classes/challenge.dart';
 import '../../../classes/goal.dart';
 import '../profile/profile.dart';
-import 'challengeRanking.dart';
 import 'chooseGoalsToJoin.dart';
 
 class InvitationsListTile extends StatefulWidget {
   UserChallengeU author;
   Challenge challenge;
-  Function _openChallengeRanking;
+  final Function _openChallengeRanking;
   InvitationsListTile(this.author, this.challenge, this._openChallengeRanking,
       {super.key});
 
@@ -157,7 +155,7 @@ class _InvitationsListTileState extends State<InvitationsListTile> {
           IconButton(
               onPressed: () => Invitation.deleteInvitation(
                   widget.author.id, widget.challenge.id),
-              icon: Center(child: Icon(Icons.close))),
+              icon: const Center(child: Icon(Icons.close))),
         ],
       ),
     );

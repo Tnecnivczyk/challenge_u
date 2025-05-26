@@ -17,16 +17,16 @@ class _ChallegngeRankingState extends State<ChallegngeRanking> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Challenge Ranking"),
+        title: const Text("Challenge Ranking"),
       ),
       body: StreamBuilder<List<Participant>>(
         stream: Challenge.readParticipants(widget.challengeId),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Text('something went wrong wiht the participants');
+            return const Text('something went wrong wiht the participants');
           }
           if (!snapshot.hasData) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
           var participants = snapshot.data!;
 
@@ -38,11 +38,10 @@ class _ChallegngeRankingState extends State<ChallegngeRanking> {
                     future: UserChallengeU.userData(participant.userId),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
-                        return Text('something went wrong with userdata' +
-                            participant.userId);
+                        return Text('something went wrong with userdata${participant.userId}');
                       }
                       if (!snapshot.hasData) {
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       }
                       String pictureURL = snapshot.data!.keys.first;
                       UserChallengeU user = snapshot.data!.values.first;

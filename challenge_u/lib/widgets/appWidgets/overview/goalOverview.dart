@@ -41,10 +41,10 @@ class _GoalOverviewState extends State<GoalOverview> {
       stream: Goal.readGoals(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Text('something went wrong');
+          return const Text('something went wrong');
         }
         if (!snapshot.hasData) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
         List<Goal> goals = snapshot.data!;
         if (goals.isEmpty) {
@@ -79,7 +79,7 @@ class _GoalOverviewState extends State<GoalOverview> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(
+                      margin: const EdgeInsets.only(
                         left: 7,
                       ),
                       child: Text(
@@ -109,7 +109,7 @@ class _GoalOverviewState extends State<GoalOverview> {
                             shown
                                 ? PopupMenuItem(
                                     onTap: () => _hideGoals(),
-                                    child: Row(
+                                    child: const Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
@@ -120,7 +120,7 @@ class _GoalOverviewState extends State<GoalOverview> {
                                   )
                                 : PopupMenuItem(
                                     onTap: () => _showGoals(),
-                                    child: Row(
+                                    child: const Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
@@ -144,8 +144,8 @@ class _GoalOverviewState extends State<GoalOverview> {
                           return GoalWidget(goal, true);
                         }).toList(),
                       )
-                    : SizedBox(),
-                SizedBox(
+                    : const SizedBox(),
+                const SizedBox(
                   height: 10,
                 ),
               ],

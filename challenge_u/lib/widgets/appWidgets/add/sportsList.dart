@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../classes/sport.dart';
 
 class SportsList extends StatefulWidget {
-  Function _changeSelected;
-  SportsList(this._changeSelected, {super.key});
+  final Function _changeSelected;
+  const SportsList(this._changeSelected, {super.key});
 
   @override
   State<SportsList> createState() => _SportsListState();
@@ -38,7 +37,7 @@ class _SportsListState extends State<SportsList> {
         stream: _readSports(),
         builder: ((context, snapshot) {
           if (snapshot.hasError) {
-            return Text('Something went wrong');
+            return const Text('Something went wrong');
           }
           if (snapshot.hasData) {
             final sports = snapshot.data!;

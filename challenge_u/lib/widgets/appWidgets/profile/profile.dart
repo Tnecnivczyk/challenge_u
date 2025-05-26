@@ -1,18 +1,12 @@
-import 'dart:io';
 import 'package:challenge_u/classes/userChallengeU.dart';
-import 'package:challenge_u/widgets/appWidgets/overview/overview.dart';
+import 'package:challenge_u/widgets/appWidgets/navigationBarBottom.dart';
 import 'package:challenge_u/widgets/appWidgets/profile/friendsOverview.dart';
 import 'package:challenge_u/widgets/appWidgets/profile/posts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../classes/Utils.dart';
-import '../add/add.dart';
 
 class Profile extends StatefulWidget {
   String userId;
@@ -25,26 +19,6 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   bool picturesExpandet = false;
-
-  void _openAdd(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) {
-          return const Add();
-        },
-      ),
-    );
-  }
-
-  void _openOverview(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) {
-          return const Overview();
-        },
-      ),
-    );
-  }
 
   void _openFriends(BuildContext context) {
     Navigator.of(context).push(
@@ -102,7 +76,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Challenge U"),
+        title: const Text("Challenge U"),
         actions: [
           // The IconButton to add a new challenges.
           widget.owner
@@ -120,15 +94,15 @@ class _ProfileState extends State<Profile> {
                 future: UserChallengeU.readProfilePicture(widget.userId),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    return Text('Something went false');
+                    return const Text('Something went false');
                   }
                   if (!snapshot.hasData) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   } else {
                     final pictures = snapshot.data;
-                    return Container(
+                    return SizedBox(
                       height: picturesExpandet
                           ? MediaQuery.of(context).size.width * 1.1
                           : 250,
@@ -140,10 +114,10 @@ class _ProfileState extends State<Profile> {
                               future: picture.getDownloadURL(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasError) {
-                                  return Text('something went wrong');
+                                  return const Text('something went wrong');
                                 }
                                 if (!snapshot.hasData) {
-                                  return CircularProgressIndicator();
+                                  return const CircularProgressIndicator();
                                 }
                                 final pictureURL = snapshot.data;
                                 return Stack(
@@ -182,7 +156,7 @@ class _ProfileState extends State<Profile> {
                                                     .deleteProfilePicture(
                                                         picture.fullPath);
                                               }),
-                                              child: Icon(Icons.delete),
+                                              child: const Icon(Icons.delete),
                                             ),
                                           )
                                         : Container()
@@ -198,16 +172,16 @@ class _ProfileState extends State<Profile> {
                 future: UserChallengeU.readUser(widget.userId),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    return Text('Fehler');
+                    return const Text('Fehler');
                   }
                   if (!snapshot.hasData) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                   final user = snapshot.data!;
                   return Container(
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       child: Column(children: <Widget>[
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
@@ -306,43 +280,14 @@ class _ProfileState extends State<Profile> {
                           alignment: Alignment.centerLeft,
                           child: Text(user.biography),
                         ),
-                        SizedBox(height: 20),
-                        Posts(),
+                        const SizedBox(height: 20),
+                        const Posts(),
                       ]));
                 })
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Theme.of(context).colorScheme.primary,
-        child: IconTheme(
-          data: IconThemeData(color: Theme.of(context).colorScheme.primary),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                  onPressed: () => _openOverview(context),
-                  icon: Icon(
-                    Icons.home,
-                    color: Theme.of(context).colorScheme.background,
-                  )),
-              IconButton(
-                onPressed: () => _openAdd(context),
-                icon: Icon(
-                  Icons.add,
-                  color: Theme.of(context).colorScheme.background,
-                ),
-              ),
-              IconButton(
-                  onPressed: null,
-                  icon: Icon(
-                    Icons.person,
-                    color: Theme.of(context).colorScheme.background,
-                  )),
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: const NavigationBarBottom('profile'),
       floatingActionButton: widget.owner
           ? FloatingActionButton(
               onPressed: () => setState(() {

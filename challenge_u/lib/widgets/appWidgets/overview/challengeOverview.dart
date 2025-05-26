@@ -1,17 +1,15 @@
 import 'package:challenge_u/classes/userChallengeU.dart';
 import 'package:challenge_u/widgets/appWidgets/overview/challengeRanking.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import 'package:challenge_u/classes/challenge.dart';
-import 'package:challenge_u/classes/training.dart';
-import 'package:challenge_u/classes/goal.dart';
 
-import '../../../classes/sport.dart';
 import '../add/addChallenge.dart';
 import 'challengeWidget.dart';
 
 class ChallengeOverview extends StatefulWidget {
+  const ChallengeOverview({super.key});
+
   @override
   State<ChallengeOverview> createState() => _ChallengeoverviewState();
 }
@@ -43,7 +41,7 @@ class _ChallengeoverviewState extends State<ChallengeOverview> {
       stream: UserChallengeU.readChallengeIds(),
       builder: ((context, snapshot) {
         if (snapshot.hasError) {
-          return Text('Something went wrong');
+          return const Text('Something went wrong');
         }
         if (snapshot.hasData) {
           final challenges = snapshot.data!;
@@ -86,11 +84,11 @@ class _ChallengeoverviewState extends State<ChallengeOverview> {
                       future: Challenge.readChallenge(challengeId),
                       builder: (context, snapshot) {
                         if (snapshot.hasError) {
-                          return Text(
+                          return const Text(
                               'something went wrong whith the challenge ');
                         }
                         if (!snapshot.hasData) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         }
                         Challenge challenge = snapshot.data!;
                         return ChallengeWidget(challenge);
@@ -102,7 +100,7 @@ class _ChallengeoverviewState extends State<ChallengeOverview> {
             ),
           ]);
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }

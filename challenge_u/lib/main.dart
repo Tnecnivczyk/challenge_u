@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       darkTheme:
           FlexColorScheme.dark(scheme: FlexScheme.money, useMaterial3: true)
               .toTheme,
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text('Something went wrong'),
           );
         } else {
-          return signInSignUpManager();
+          return const signInSignUpManager();
         }
       },
     );

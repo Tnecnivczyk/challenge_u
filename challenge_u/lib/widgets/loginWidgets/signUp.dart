@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
   final VoidCallback onClickLogIn;
-  SignUp(this.onClickLogIn);
+  const SignUp(this.onClickLogIn, {super.key});
   @override
   State<SignUp> createState() => _SignUpState();
 }
@@ -91,7 +91,7 @@ class _SignUpState extends State<SignUp> {
                 height: 50,
               ),
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Text(
                   'Sign Up',
                   style: Theme.of(context).textTheme.headlineLarge,

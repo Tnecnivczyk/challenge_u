@@ -9,7 +9,7 @@ import '../../classes/Utils.dart';
 
 class LogIn extends StatefulWidget {
   final VoidCallback onClickSignUp;
-  LogIn(this.onClickSignUp);
+  const LogIn(this.onClickSignUp, {super.key});
   @override
   State<LogIn> createState() => _LogInState();
 }
@@ -50,7 +50,7 @@ class _LogInState extends State<LogIn> {
               height: 50,
             ),
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Text(
                 'Login',
                 style: Theme.of(context).textTheme.headlineLarge,
@@ -105,7 +105,7 @@ class _LogInState extends State<LogIn> {
                     fontSize: 14),
               ),
               onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ForgotPassword(),
+                builder: (context) => const ForgotPassword(),
               )),
             ),
             const SizedBox(

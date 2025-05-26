@@ -1,6 +1,5 @@
 import 'package:challenge_u/classes/userChallengeU.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../classes/Utils.dart';
@@ -9,7 +8,7 @@ class FriendListTile extends StatefulWidget {
   String pictureURL;
   UserChallengeU user;
 
-  FriendListTile(this.pictureURL, this.user);
+  FriendListTile(this.pictureURL, this.user, {super.key});
 
   @override
   State<FriendListTile> createState() => _FriendListTileState();
@@ -85,6 +84,5 @@ class _FriendListTileState extends State<FriendListTile> {
                   );
           }),
     );
-    ;
   }
 }

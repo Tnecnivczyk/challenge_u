@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../classes/goal.dart';
@@ -6,9 +5,9 @@ import '../overview/goalWidget.dart';
 
 class SelectGoals extends StatefulWidget {
   List<Goal> goals;
-  List<Goal> _selected;
-  Function _addToSelected;
-  Function _removeFromSelected;
+  final List<Goal> _selected;
+  final Function _addToSelected;
+  final Function _removeFromSelected;
 
   SelectGoals(
       this.goals, this._selected, this._addToSelected, this._removeFromSelected,

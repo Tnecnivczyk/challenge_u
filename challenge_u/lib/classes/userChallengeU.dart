@@ -1,12 +1,9 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:challenge_u/classes/participant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserChallengeU {
@@ -58,7 +55,6 @@ class UserChallengeU {
   }
 
   static void deleteProfilePicture(String fullPath) {
-    String userId = FirebaseAuth.instance.currentUser!.uid;
     FirebaseStorage.instance.ref().child(fullPath).delete();
   }
 
@@ -95,16 +91,16 @@ class UserChallengeU {
 
   static Future<List<String>> readFriend() async {
     List<String> friends = [];
-    final userId = await FirebaseAuth.instance.currentUser?.uid;
+    final userId = FirebaseAuth.instance.currentUser?.uid;
     await FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
         .collection('friends')
         .get()
         .then((snapshot) {
-      snapshot.docs.forEach((doc) {
+      for (var doc in snapshot.docs) {
         friends.add(doc['friendId']);
-      });
+      }
     });
     return friends;
   }
@@ -219,7 +215,7 @@ class UserChallengeU {
   }
 
   static Future<String> readPrimaryChallenge() async {
-    final userId = await FirebaseAuth.instance.currentUser?.uid;
+    final userId = FirebaseAuth.instance.currentUser?.uid;
     return await FirebaseFirestore.instance
         .collection('users')
         .doc(userId)

@@ -31,7 +31,7 @@ class _InviteFriendsBottomSheetState extends State<InviteFriendsBottomSheet> {
                   onChanged: (value) => setState(() {
                     _search = false;
                   }),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Username',
                   ),
                 ),
@@ -40,10 +40,10 @@ class _InviteFriendsBottomSheetState extends State<InviteFriendsBottomSheet> {
                   onPressed: () => setState(() {
                         _search = true;
                       }),
-                  child: Text('search'))
+                  child: const Text('search'))
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           !_search
@@ -53,10 +53,10 @@ class _InviteFriendsBottomSheetState extends State<InviteFriendsBottomSheet> {
                       _friendNameController.text.trim()),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
-                      return Text('No matched user found');
+                      return const Text('No matched user found');
                     }
                     if (!snapshot.hasData) {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     }
                     final user = snapshot.data!;
                     return SizedBox(

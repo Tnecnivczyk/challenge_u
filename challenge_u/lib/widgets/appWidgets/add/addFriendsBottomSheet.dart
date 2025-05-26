@@ -1,11 +1,8 @@
 import 'package:challenge_u/classes/userChallengeU.dart';
 import 'package:challenge_u/widgets/appWidgets/profile/friendListTile.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-import '../../../classes/Utils.dart';
 
 class AddFriendsBottomSheet extends StatefulWidget {
   const AddFriendsBottomSheet({super.key});
@@ -31,7 +28,7 @@ class _AddFriendsBottomSheetState extends State<AddFriendsBottomSheet> {
                   onChanged: (value) => setState(() {
                     _search = false;
                   }),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Username',
                   ),
                 ),
@@ -40,10 +37,10 @@ class _AddFriendsBottomSheetState extends State<AddFriendsBottomSheet> {
                   onPressed: () => setState(() {
                         _search = true;
                       }),
-                  child: Text('search'))
+                  child: const Text('search'))
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           !_search
@@ -53,13 +50,13 @@ class _AddFriendsBottomSheetState extends State<AddFriendsBottomSheet> {
                       _friendNameController.text.trim()),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
-                      return Text('No matched user found');
+                      return const Text('No matched user found');
                     }
                     if (!snapshot.hasData) {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     }
                     final user = snapshot.data!;
-                    return Container(
+                    return SizedBox(
                       height: 500,
                       child: Column(
                         children: [

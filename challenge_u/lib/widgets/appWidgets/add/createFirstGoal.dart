@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'addGoal.dart';
@@ -28,11 +27,10 @@ class CreateFirstGoal extends StatelessWidget {
           ),
           OutlinedButton(
             onPressed: () => _openAddGoal(context),
-            child: Text('Create New Goal'),
+            child: const Text('Create New Goal'),
           )
         ],
       ),
     );
-    ;
   }
 }

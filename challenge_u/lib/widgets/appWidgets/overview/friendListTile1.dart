@@ -1,7 +1,6 @@
 import 'package:challenge_u/classes/userChallengeU.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../classes/Utils.dart';
@@ -12,7 +11,7 @@ class FriendListTile1 extends StatefulWidget {
   UserChallengeU user;
   Challenge challenge;
 
-  FriendListTile1(this.pictureURL, this.user, this.challenge);
+  FriendListTile1(this.pictureURL, this.user, this.challenge, {super.key});
 
   @override
   State<FriendListTile1> createState() => _FriendListTileState1();
@@ -114,9 +113,8 @@ class _FriendListTileState1 extends State<FriendListTile1> {
                     onPressed: () =>
                         _inviteFirend(widget.user.id, widget.user.username),
                   )
-                : Text('already invited');
+                : const Text('already invited');
           }),
     );
-    ;
   }
 }

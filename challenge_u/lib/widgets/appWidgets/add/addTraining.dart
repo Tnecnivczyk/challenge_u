@@ -1,12 +1,8 @@
-import 'package:challenge_u/classes/userChallengeU.dart';
 import 'package:challenge_u/widgets/appWidgets/add/inputTextfield.dart';
 import 'package:challenge_u/widgets/appWidgets/add/sportsList.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../classes/challenge.dart';
 import '../../../classes/training.dart';
 import '../../../classes/sport.dart';
 
@@ -169,7 +165,7 @@ class _AddTrainingState extends State<AddTraining> {
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 50,
                       child: Row(
                         children: [
@@ -226,7 +222,7 @@ class _AddTrainingState extends State<AddTraining> {
       ),
       bottomNavigationBar: BottomAppBar(
         color: Theme.of(context).colorScheme.primaryContainer,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         child: SizedBox(
           width: 200,
           child: TextButton(
@@ -245,6 +241,5 @@ class _AddTrainingState extends State<AddTraining> {
         ),
       ),
     );
-    ;
   }
 }

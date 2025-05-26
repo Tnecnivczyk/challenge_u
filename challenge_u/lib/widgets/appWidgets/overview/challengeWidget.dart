@@ -1,13 +1,10 @@
 import 'package:challenge_u/widgets/appWidgets/overview/goalWidget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../classes/challenge.dart';
 import '../../../classes/goal.dart';
-import '../add/addFriendsBottomSheet.dart';
 import 'inviteFriendsBottomSheet.dart';
 
 class ChallengeWidget extends StatefulWidget {
@@ -83,7 +80,7 @@ class _ChallengeWidgetState extends State<ChallengeWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              margin: EdgeInsets.only(
+              margin: const EdgeInsets.only(
                 left: 7,
               ),
               child: Text(
@@ -99,7 +96,7 @@ class _ChallengeWidgetState extends State<ChallengeWidget> {
                 itemBuilder: (BuildContext context) => [
                       PopupMenuItem(
                         onTap: _invitePeople,
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Invite Friends'),
@@ -109,7 +106,7 @@ class _ChallengeWidgetState extends State<ChallengeWidget> {
                       ),
                       PopupMenuItem(
                         onTap: _quit,
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Quit'),
@@ -124,7 +121,7 @@ class _ChallengeWidgetState extends State<ChallengeWidget> {
           future: Goal.readParticipantGoals(widget.challenge.id),
           builder: ((context, snapshot) {
             if (snapshot.hasError) {
-              return Text('Something went ach man');
+              return const Text('Something went ach man');
             }
             if (snapshot.hasData) {
               final goals = snapshot.data!;
@@ -135,7 +132,7 @@ class _ChallengeWidgetState extends State<ChallengeWidget> {
                 }).toList(),
               );
             } else {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }

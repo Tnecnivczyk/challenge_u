@@ -1,38 +1,32 @@
-import 'dart:ffi';
-
-import 'package:challenge_u/widgets/appWidgets/add/addGoal.dart';
+import 'package:challenge_u/widgets/appWidgets/navigationBarBottom.dart';
 import 'package:challenge_u/widgets/appWidgets/overview/challengeOverview.dart';
 import 'package:challenge_u/widgets/appWidgets/overview/goalOverview.dart';
 import 'package:challenge_u/widgets/appWidgets/overview/listOfTrainings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:week_of_year/week_of_year.dart';
-import 'package:firebase_core/firebase_core.dart';
 
-import '../../../classes/sport.dart';
-import '../../../classes/goal.dart';
 import '../../../classes/challenge.dart';
 import '../../../classes/training.dart';
 
 import 'invitationsWidget.dart';
 import 'weeklyProgress.dart';
 import '../add/addTraining.dart';
-import '../add/add.dart';
-import '../profile/profile.dart';
 
 class Overview extends StatelessWidget {
   const Overview({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MyHomePage();
+    return const MyHomePage();
   }
 }
 
 // The main widget of the app, representing the homepage.
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -50,27 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return _trainings.where((element) {
       return element.date.weekOfYear == DateTime.now().weekOfYear;
     }).toList();
-  }
-
-  void _openAdd(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) {
-          return Add();
-        },
-      ),
-    );
-  }
-
-  void _openProfile(BuildContext context) {
-    String userId = FirebaseAuth.instance.currentUser!.uid;
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) {
-          return Profile(userId, true);
-        },
-      ),
-    );
   }
 
   // Opens the bottom sheet to enter a training.
@@ -119,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Challenge U"),
+        title: const Text("Challenge U"),
         actions: [
           Padding(
             padding: const EdgeInsets.only(
@@ -129,10 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
               stream: readMessageCounter(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return Text('something went wrong');
+                  return const Text('something went wrong');
                 }
                 if (!snapshot.hasData) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
                 int count = snapshot.data!;
                 return GestureDetector(
@@ -148,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         right: 0.0,
                         bottom: 0.0,
                         child: Container(
-                          padding: EdgeInsets.all(4.0),
+                          padding: const EdgeInsets.all(4.0),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: count == 0
@@ -156,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 : Theme.of(context).colorScheme.error,
                           ),
                           child: Text(
-                            '${count}',
+                            '$count',
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.background,
                               fontSize: 12.0,
@@ -175,61 +148,33 @@ class _MyHomePageState extends State<MyHomePage> {
 
       // The main content of the app, shown in a Column widget.
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             // Displays the progress of the current week.
             WeeklyProgress(_challenges, _currentTrainings),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             // Displays the overview of all challenges.
-            ChallengeOverview(),
-            SizedBox(
+            const ChallengeOverview(),
+            const SizedBox(
               height: 5,
             ),
             // Displays the list of the weekly goals.
-            GoalOverview(),
-            SizedBox(
+            const GoalOverview(),
+            const SizedBox(
               height: 5,
             ),
             // Displays the list of all trainings.
-            ListOfTrainings(),
+            const ListOfTrainings(),
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Theme.of(context).colorScheme.primary,
-        child: IconTheme(
-          data: IconThemeData(color: Theme.of(context).colorScheme.primary),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                  onPressed: null,
-                  icon: Icon(
-                    Icons.home,
-                    color: Theme.of(context).colorScheme.background,
-                  )),
-              IconButton(
-                  onPressed: () => _openAdd(context),
-                  icon: Icon(
-                    Icons.add,
-                    color: Theme.of(context).colorScheme.background,
-                  )),
-              IconButton(
-                  onPressed: () => _openProfile(context),
-                  icon: Icon(
-                    Icons.person,
-                    color: Theme.of(context).colorScheme.background,
-                  )),
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: NavigationBarBottom('overview'),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openTrainingBottomSheet(context),
         child: const Icon(Icons.add),

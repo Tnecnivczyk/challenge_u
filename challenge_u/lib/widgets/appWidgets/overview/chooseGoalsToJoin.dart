@@ -2,12 +2,10 @@ import 'package:challenge_u/classes/challenge.dart';
 import 'package:challenge_u/classes/invitation.dart';
 import 'package:challenge_u/widgets/appWidgets/add/createFirstGoal.dart';
 import 'package:challenge_u/widgets/appWidgets/add/selectGoals.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../classes/goal.dart';
 import '../../../classes/userChallengeU.dart';
-import '../add/addGoal.dart';
 
 class ChooseGoalsToJoinSheet extends StatefulWidget {
   Challenge challenge;
@@ -55,14 +53,14 @@ class _ChooseGoalsToJoinSheetState extends State<ChooseGoalsToJoinSheet> {
             stream: Goal.readGoals(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
-                return Text('something went wrong');
+                return const Text('something went wrong');
               }
               if (!snapshot.hasData) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               }
               List<Goal> goals = snapshot.data!;
               return goals.isEmpty
-                  ? CreateFirstGoal()
+                  ? const CreateFirstGoal()
                   : Column(
                       children: [
                         SelectGoals(goals, _selected, _addToSelected,
@@ -73,10 +71,10 @@ class _ChooseGoalsToJoinSheetState extends State<ChooseGoalsToJoinSheet> {
                                 onPressed: _selected.isEmpty
                                     ? null
                                     : () => _joinChallenge(_selected),
-                                child: Text("Join challenge")),
+                                child: const Text("Join challenge")),
                             OutlinedButton(
                                 onPressed: () => Navigator.of(context).pop(),
-                                child: Text("Go back")),
+                                child: const Text("Go back")),
                           ],
                         ),
                       ],

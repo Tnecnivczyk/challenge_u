@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../classes/challenge.dart';
 import '../../../classes/training.dart';
-import '../../../classes/goal.dart';
 
 class WeeklyProgress extends StatelessWidget {
   List<Challenge> challenges;
   List<Training> trainings;
 
-  WeeklyProgress(this.challenges, this.trainings);
+  WeeklyProgress(this.challenges, this.trainings, {super.key});
 
   List<double> get progress {
     double toDo = 0.0;
@@ -25,21 +24,21 @@ class WeeklyProgress extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
             child: Text("Weekly Progress"),
           ),
           Row(
             children: [
               Flexible(
                 child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                   height: 10,
                   child: Stack(
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(220, 220, 220, 1),
+                          color: const Color.fromRGBO(220, 220, 220, 1),
                           border: Border.all(width: 1, color: Colors.grey),
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -60,7 +59,7 @@ class WeeklyProgress extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
         ],

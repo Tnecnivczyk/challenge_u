@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:challenge_u/classes/participant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Challenge {
   List<Participant> participants = [];

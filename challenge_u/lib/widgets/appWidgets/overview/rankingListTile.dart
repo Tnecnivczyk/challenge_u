@@ -1,10 +1,6 @@
-import 'package:challenge_u/widgets/appWidgets/overview/goalWidget.dart';
 import 'package:challenge_u/widgets/appWidgets/overview/statsForUserChallenge.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../classes/goal.dart';
 import '../../../classes/userChallengeU.dart';
 
 class RankingListTile extends StatefulWidget {

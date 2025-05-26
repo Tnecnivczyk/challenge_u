@@ -2,13 +2,8 @@ import 'package:challenge_u/widgets/appWidgets/add/inputTextfield.dart';
 import 'package:challenge_u/widgets/appWidgets/add/selectabeBox.dart';
 import 'package:challenge_u/widgets/appWidgets/add/sportsList.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/single_child_widget.dart';
 
-import '../../../classes/challenge.dart';
-import '../../../classes/training.dart';
 import '../../../classes/sport.dart';
 import '../../../classes/goal.dart';
 import 'addSports.dart';
@@ -314,7 +309,7 @@ class _AddGoalState extends State<AddGoal> {
       ),
       bottomNavigationBar: BottomAppBar(
         color: Theme.of(context).colorScheme.primaryContainer,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         child: SizedBox(
           width: 200,
           child: TextButton(

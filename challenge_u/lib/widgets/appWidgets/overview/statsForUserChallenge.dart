@@ -1,6 +1,5 @@
 import 'package:challenge_u/classes/userChallengeU.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../classes/goal.dart';
@@ -38,10 +37,10 @@ class _StatsForUserChallengeState extends State<StatsForUserChallenge> {
                 ),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
-                return Text('something went wrong');
+                return const Text('something went wrong');
               }
               if (!snapshot.hasData) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               }
               List<Goal> goals = snapshot.data!;
               return Column(

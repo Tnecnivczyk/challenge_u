@@ -1,26 +1,22 @@
-import 'dart:math';
 
 import 'package:challenge_u/widgets/appWidgets/overview/circleTrainingListTile.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../classes/sport.dart';
 import '../../../classes/training.dart';
 
 class ListOfTrainings extends StatelessWidget {
-  ListOfTrainings({super.key});
+  const ListOfTrainings({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 400,
       child: StreamBuilder<List<Training>>(
           stream: Training.readTrainings(),
           builder: (ctx, snapshot) {
             if (snapshot.hasError) {
-              return Text('Something went false');
+              return const Text('Something went false');
             }
             if (snapshot.hasData) {
               final trainings = snapshot.data!;
@@ -29,7 +25,7 @@ class ListOfTrainings extends StatelessWidget {
                 child: Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(
+                      margin: const EdgeInsets.only(
                         left: 7,
                       ),
                       child: Text(
@@ -45,11 +41,11 @@ class ListOfTrainings extends StatelessWidget {
                             .map(
                               (training) => Card(
                                 elevation: 0,
-                                margin: EdgeInsets.symmetric(
+                                margin: const EdgeInsets.symmetric(
                                     vertical: 8, horizontal: 5),
                                 child: ListTile(
-                                  contentPadding: EdgeInsets.all(0),
-                                  leading: Container(
+                                  contentPadding: const EdgeInsets.all(0),
+                                  leading: SizedBox(
                                     width: 80,
                                     child: Padding(
                                       padding: const EdgeInsets.all(5.0),
@@ -128,7 +124,7 @@ class ListOfTrainings extends StatelessWidget {
                 ),
               );
             } else {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
           }),
     );

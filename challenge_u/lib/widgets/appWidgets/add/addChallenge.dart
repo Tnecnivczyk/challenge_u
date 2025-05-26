@@ -1,15 +1,11 @@
 import 'package:challenge_u/classes/challenge.dart';
 import 'package:challenge_u/classes/userChallengeU.dart';
-import 'package:challenge_u/classes/utils.dart';
 import 'package:challenge_u/widgets/appWidgets/add/createFirstGoal.dart';
 import 'package:challenge_u/widgets/appWidgets/add/selectGoals.dart';
-import 'package:challenge_u/widgets/appWidgets/overview/challengeWidget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
 import '../../../classes/goal.dart';
-import '../overview/goalWidget.dart';
 import 'addGoal.dart';
 
 class AddChallengeBottomSheet extends StatefulWidget {
@@ -37,7 +33,7 @@ class _AddChallengeBottomSheet extends State<AddChallengeBottomSheet> {
     if (_challengeNameController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('enter a valid challenge name'),
+          content: const Text('enter a valid challenge name'),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
@@ -46,7 +42,7 @@ class _AddChallengeBottomSheet extends State<AddChallengeBottomSheet> {
     if (_selected.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('selecte at least one goal for your challenge'),
+          content: const Text('selecte at least one goal for your challenge'),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
@@ -88,30 +84,30 @@ class _AddChallengeBottomSheet extends State<AddChallengeBottomSheet> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("New Challenge"),
+        title: const Text("New Challenge"),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         child: StreamBuilder(
           stream: Goal.readGoals(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text('something went wrong');
+              return const Text('something went wrong');
             }
             if (!snapshot.hasData) {
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
             List<Goal> goals = snapshot.data!;
             if (goals.isEmpty) {
-              return CreateFirstGoal();
+              return const CreateFirstGoal();
             }
             return Column(
               children: [
                 TextFormField(
                   controller: _challengeNameController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Give your challenge name",
-                    border: const OutlineInputBorder(
+                    border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15)),
                         gapPadding: 5),
                   ),
@@ -133,7 +129,7 @@ class _AddChallengeBottomSheet extends State<AddChallengeBottomSheet> {
                 Card(
                   elevation: 5,
                   child: Container(
-                    padding: EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
                     child: Row(
                       children: [
                         Expanded(
@@ -175,7 +171,7 @@ class _AddChallengeBottomSheet extends State<AddChallengeBottomSheet> {
                             const Expanded(child: Text('Need another goal?')),
                             OutlinedButton(
                               onPressed: _openAddGoal,
-                              child: Text('Create goal'),
+                              child: const Text('Create goal'),
                             )
                           ],
                         ),
@@ -190,7 +186,7 @@ class _AddChallengeBottomSheet extends State<AddChallengeBottomSheet> {
       ),
       bottomNavigationBar: BottomAppBar(
         color: Theme.of(context).colorScheme.primaryContainer,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         child: SizedBox(
           width: 200,
           child: TextButton(

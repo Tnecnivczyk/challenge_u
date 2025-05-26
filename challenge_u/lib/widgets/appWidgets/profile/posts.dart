@@ -25,7 +25,7 @@ class _PostsState extends State<Posts> {
                 children: List.generate(
                   snapshot.data!.length,
                   (index) {
-                    return Container(
+                    return SizedBox(
                       width: MediaQuery.of(context).size.width / 3 - 12,
                       height: MediaQuery.of(context).size.width / 3 - 12,
                       child: Image.network(

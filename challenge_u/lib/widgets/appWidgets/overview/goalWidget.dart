@@ -1,12 +1,8 @@
-import 'dart:io';
 
 import 'package:challenge_u/classes/Utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:week_of_year/date_week_extensions.dart';
 
 import '../../../classes/goal.dart';
 import '../../../classes/training.dart';
@@ -50,9 +46,9 @@ class _GoalWidgetState extends State<GoalWidget> {
         .collection('challengeIds')
         .get()
         .then((value) {
-      value.docs.forEach((challenge) {
+      for (var challenge in value.docs) {
         isGoalInChallenges = true;
-      });
+      }
     });
     if (!isGoalInChallenges) {
       Goal.deleteGoal(widget.goal.id);
@@ -70,10 +66,10 @@ class _GoalWidgetState extends State<GoalWidget> {
       stream: readTrainings(widget.goal),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Text('something went wrong');
+          return const Text('something went wrong');
         }
         if (!snapshot.hasData) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
         List<Training> trainings = snapshot.data!;
         int daysDone = widget.goal.daysDone(trainings);
@@ -116,7 +112,7 @@ class _GoalWidgetState extends State<GoalWidget> {
                           items: <PopupMenuEntry>[
                             PopupMenuItem(
                               onTap: _deleteGoal,
-                              child: Row(
+                              child: const Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -136,7 +132,7 @@ class _GoalWidgetState extends State<GoalWidget> {
                         color: Theme.of(context).colorScheme.tertiary,
                       ),
                     )
-                  : SizedBox(
+                  : const SizedBox(
                       height: 35,
                     ),
             ],
@@ -147,13 +143,13 @@ class _GoalWidgetState extends State<GoalWidget> {
               Flexible(
                 fit: FlexFit.loose,
                 child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                   height: 10,
                   child: Stack(
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(220, 220, 220, 1),
+                          color: const Color.fromRGBO(220, 220, 220, 1),
                           border: Border.all(width: 1, color: Colors.grey),
                           borderRadius: BorderRadius.circular(10),
                         ),

@@ -34,25 +34,25 @@ class _AddSportsState extends State<AddSports> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Name',
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
-            Container(
+            SizedBox(
               height: 300,
               child: TextField(
                 controller: _descriptionController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Description',
                 ),
               ),
             ),
             ElevatedButton(
               onPressed: _createSport,
-              child: Text('Create new sport'),
+              child: const Text('Create new sport'),
             )
           ],
         ),

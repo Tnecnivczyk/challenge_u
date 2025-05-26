@@ -1,10 +1,8 @@
 import 'package:challenge_u/widgets/appWidgets/add/addGoal.dart';
 import 'package:challenge_u/widgets/appWidgets/add/addSports.dart';
-import 'package:challenge_u/widgets/appWidgets/overview/overview.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:challenge_u/widgets/appWidgets/navigationBarBottom.dart';
 import 'package:flutter/material.dart';
 
-import '../profile/profile.dart';
 import 'addFriendsBottomSheet.dart';
 import 'addChallenge.dart';
 import 'addTraining.dart';
@@ -17,27 +15,6 @@ class Add extends StatefulWidget {
 }
 
 class _AddState extends State<Add> {
-  void _openOverview(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) {
-          return const Overview();
-        },
-      ),
-    );
-  }
-
-  void _openProfile(BuildContext context) {
-    String userId = FirebaseAuth.instance.currentUser!.uid;
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) {
-          return Profile(userId, true);
-        },
-      ),
-    );
-  }
-
   // Opens the bottom sheet to enter a training.
   void _openTrainingBottomSheet() {
     Navigator.of(context).push(
@@ -137,35 +114,7 @@ class _AddState extends State<Add> {
               ],
             )),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Theme.of(context).colorScheme.primary,
-        child: IconTheme(
-          data: IconThemeData(color: Theme.of(context).colorScheme.primary),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                  onPressed: () => _openOverview(context),
-                  icon: Icon(
-                    Icons.home,
-                    color: Theme.of(context).colorScheme.background,
-                  )),
-              IconButton(
-                  onPressed: null,
-                  icon: Icon(
-                    Icons.add,
-                    color: Theme.of(context).colorScheme.background,
-                  )),
-              IconButton(
-                  onPressed: () => _openProfile(context),
-                  icon: Icon(
-                    Icons.person,
-                    color: Theme.of(context).colorScheme.background,
-                  )),
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: NavigationBarBottom('add'),
     );
   }
 }
