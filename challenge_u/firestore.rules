@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+    match/users/{docId}/{document=**}{
+    allow read: if signedIn();
+    allow write: if isOwner(docId);
+    }
+    
+    match/users/{docId}/invitations/{docId2}{
+    allow write: if isOwner(docId2);
+    allow delete: if isOwner(docId);    
+    }
+    
+    match/users/{docId}/invitations/{docId2}{
+    allow write: if (docId2 == 'count');
+    allow delete: if isOwner(docId);  
+    allow update: if isOwner(docId);
+    }
+    
+    match/sports/{docId}{
+    allow read: if signedIn();
+    allow create: if signedIn();
+    }
+    
+    
+    
+    match/challenges/{docId}/{document=**}{
+    allow read: if signedIn();
+    allow write: if signedIn();
+    allow delete: if signedIn();
+    
+    }
+    
+    //Follower können sich selbst hinzufügen und entfernen//
+    match/users/{ownerId}/follower/{docId}/{document=**}{
+    allow read: if signedIn();
+    allow write: if isOwner(docId);
+  
+    }
+    ///Functions///
+    
+    function signedIn(){
+    return request.auth != null;
+    }
+    
+    function isOwner(docId){
+    return  request.auth.uid == docId;
+    }
+  }
+}

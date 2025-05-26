@@ -1,154 +1,110 @@
+import 'package:challenge_u/classes/userChallengeU.dart';
+import 'package:challenge_u/widgets/appWidgets/overview/challengeRanking.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import 'package:challenge_u/classes/challenge.dart';
-import 'package:challenge_u/classes/training.dart';
-import 'package:challenge_u/classes/goal.dart';
 
-import '../../../classes/sport.dart';
+import '../add/addChallenge.dart';
+import 'challengeWidget.dart';
 
 class ChallengeOverview extends StatefulWidget {
+  const ChallengeOverview({super.key});
+
   @override
   State<ChallengeOverview> createState() => _ChallengeoverviewState();
 }
 
 class _ChallengeoverviewState extends State<ChallengeOverview> {
+  void _openChallengeBottomSheet(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) {
+          return const AddChallengeBottomSheet();
+        },
+      ),
+    );
+  }
+
+  void _openChallengeRanking(BuildContext context, String challengeId) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) {
+          return ChallegngeRanking(challengeId);
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        children: [
-          Container(
-            child: Text("Deine Ziele für diese Woche"),
-            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
-          ),
-          StreamBuilder<List<Challenge>>(
-            stream: Challenge.readChallenges(),
-            builder: ((context, snapshot) {
-              if (snapshot.hasError) {
-                return Text('Something went wrong');
-              }
-              if (snapshot.hasData) {
-                final challenges = snapshot.data!;
-                return Row(
-                  children: challenges.map((challenge) {
-                    return Flexible(
-                      fit: FlexFit.loose,
-                      child: Card(
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Flexible(
-                                  fit: FlexFit.loose,
-                                  child: Text(
-                                    challenge.name,
-                                    style:
-                                        Theme.of(context).textTheme.headline6,
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.delete,
-                                    color: Theme.of(context).colorScheme.error,
-                                  ),
-                                  onPressed: () =>
-                                      Challenge.deleteChallenge(challenge.id),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            StreamBuilder<List<Goal>>(
-                              stream: Goal.readGoals(challenge.id),
-                              builder: ((context, snapshot) {
-                                if (snapshot.hasError) {
-                                  return Text('Something went ach man');
-                                }
-                                if (snapshot.hasData) {
-                                  final goals = snapshot.data!;
-                                  return Column(
-                                    children: goals.map((goal) {
-                                      return Column(children: [
-                                        Text(
-                                            "${goal.sportName} ${goal.daysDone()}/${goal.days.toStringAsFixed(0)}"),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Flexible(
-                                              fit: FlexFit.loose,
-                                              child: Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    vertical: 5,
-                                                    horizontal: 10),
-                                                height: 10,
-                                                child: Stack(
-                                                  children: [
-                                                    Container(
-                                                      decoration: BoxDecoration(
-                                                        color: Color.fromRGBO(
-                                                            220, 220, 220, 1),
-                                                        border: Border.all(
-                                                            width: 1,
-                                                            color: Colors.grey),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                      ),
-                                                    ),
-                                                    FractionallySizedBox(
-                                                      widthFactor: goal
-                                                                  .daysDone() ==
-                                                              0
-                                                          ? 0.0
-                                                          : goal.daysDone() /
-                                                              goal.days,
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .colorScheme
-                                                                .secondary),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ]);
-                                    }).toList(),
-                                  );
-                                } else {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
-                              }),
-                            ),
-                          ],
+    return StreamBuilder<List<String>>(
+      stream: UserChallengeU.readChallengeIds(),
+      builder: ((context, snapshot) {
+        if (snapshot.hasError) {
+          return const Text('Something went wrong');
+        }
+        if (snapshot.hasData) {
+          final challenges = snapshot.data!;
+          if (challenges.isEmpty) {
+            return Column(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 20,
+                  height: 50,
+                  child: GestureDetector(
+                    child: Card(
+                      elevation: 5,
+                      child: Center(
+                        child: Text(
+                          'Create Your First Challenge',
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
                       ),
-                    );
-                  }).toList(),
+                    ),
+                    onTap: () => _openChallengeBottomSheet(context),
+                  ),
+                ),
+              ],
+            );
+          }
+          return Column(children: [
+            const SizedBox(
+              height: 5,
+            ),
+            SizedBox(
+              height: 250,
+              child: PageView(
+                  children: challenges.map((challengeId) {
+                return GestureDetector(
+                  onTap: () => _openChallengeRanking(context, challengeId),
+                  child: Card(
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    elevation: 5,
+                    child: FutureBuilder(
+                      future: Challenge.readChallenge(challengeId),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return const Text(
+                              'something went wrong whith the challenge ');
+                        }
+                        if (!snapshot.hasData) {
+                          return const CircularProgressIndicator();
+                        }
+                        Challenge challenge = snapshot.data!;
+                        return ChallengeWidget(challenge);
+                      },
+                    ),
+                  ),
                 );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
-          )
-        ],
-      ),
+              }).toList()),
+            ),
+          ]);
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      }),
     );
   }
 }

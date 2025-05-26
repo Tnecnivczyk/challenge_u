@@ -1,11 +1,11 @@
-import 'package:challenge_u/widgets/appWidgets/add/addChallengeBottomSheet.dart';
-import 'package:challenge_u/widgets/appWidgets/add/addSportsBottomSheet.dart';
-import 'package:challenge_u/widgets/appWidgets/overview/overview.dart';
+import 'package:challenge_u/widgets/appWidgets/add/addGoal.dart';
+import 'package:challenge_u/widgets/appWidgets/add/addSports.dart';
+import 'package:challenge_u/widgets/appWidgets/navigationBarBottom.dart';
 import 'package:flutter/material.dart';
 
-import '../profile/profile.dart';
 import 'addFriendsBottomSheet.dart';
-import 'addTrainingBottomSheet.dart';
+import 'addChallenge.dart';
+import 'addTraining.dart';
 
 class Add extends StatefulWidget {
   const Add({super.key});
@@ -15,64 +15,60 @@ class Add extends StatefulWidget {
 }
 
 class _AddState extends State<Add> {
-  void _openOverview(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) {
-          return const Overview();
-        },
-      ),
-    );
-  }
-
-  void _openProfile(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) {
-          return const Profile();
-        },
-      ),
-    );
-  }
-
   // Opens the bottom sheet to enter a training.
   void _openTrainingBottomSheet() {
-    showModalBottomSheet(
-        context: context,
+    Navigator.of(context).push(
+      MaterialPageRoute(
         builder: (_) {
-          return AddTrainingBottomSheet();
-        });
+          return const AddTraining();
+        },
+      ),
+    );
   }
 
-  void _openChallengeBottomSheet() {
-    showModalBottomSheet(
-        context: context,
+  void _openAddGoal() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
         builder: (_) {
-          return AddChallengeBottomSheet();
-        });
+          return const AddGoal();
+        },
+      ),
+    );
   }
 
-  void _openSportsBottomSheet() {
-    showModalBottomSheet(
-        context: context,
+  void _openAddSports() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
         builder: (_) {
-          return AddSportsBottomSheet();
-        });
+          return const AddSports();
+        },
+      ),
+    );
   }
 
   void _openFriendsBottomSheet() {
     showModalBottomSheet(
         context: context,
         builder: (_) {
-          return AddFriendsBottomSheet();
+          return const AddFriendsBottomSheet();
         });
+  }
+
+  void _openChallengeBottomSheet(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) {
+          return const AddChallengeBottomSheet();
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Challenge U"),
+        title: const Text("Challenge U"),
       ),
       // The main content of the app, shown in a Column widget.
       body: SingleChildScrollView(
@@ -80,66 +76,45 @@ class _AddState extends State<Add> {
             padding: const EdgeInsets.all(5),
             child: Column(
               children: [
-                Container(
+                SizedBox(
                   width: double.maxFinite,
                   child: TextButton(
-                    child: Text('Add Training'),
                     onPressed: _openTrainingBottomSheet,
+                    child: const Text('Log Training'),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: double.maxFinite,
                   child: TextButton(
-                    child: Text('Add Challenge'),
-                    onPressed: _openChallengeBottomSheet,
+                    onPressed: _openAddGoal,
+                    child: const Text('Set Goal'),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: double.maxFinite,
                   child: TextButton(
-                    child: Text('Add / Remove Friends'),
                     onPressed: _openFriendsBottomSheet,
+                    child: const Text('Add / Remove Friends'),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: double.maxFinite,
                   child: TextButton(
-                    child: Text('Add Sports'),
-                    onPressed: _openSportsBottomSheet,
+                    onPressed: _openAddSports,
+                    child: const Text('Create New Sport'),
+                  ),
+                ),
+                SizedBox(
+                  width: double.maxFinite,
+                  child: TextButton(
+                    child: const Text('Create Challenge'),
+                    onPressed: () => _openChallengeBottomSheet(context),
                   ),
                 ),
               ],
             )),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Theme.of(context).colorScheme.primary,
-        child: IconTheme(
-          data: IconThemeData(color: Theme.of(context).colorScheme.primary),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                  onPressed: () => _openOverview(context),
-                  icon: Icon(
-                    Icons.home,
-                    color: Theme.of(context).colorScheme.background,
-                  )),
-              IconButton(
-                  onPressed: null,
-                  icon: Icon(
-                    Icons.add,
-                    color: Theme.of(context).colorScheme.background,
-                  )),
-              IconButton(
-                  onPressed: () => _openProfile(context),
-                  icon: Icon(
-                    Icons.person,
-                    color: Theme.of(context).colorScheme.background,
-                  )),
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: NavigationBarBottom('add'),
     );
   }
 }

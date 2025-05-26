@@ -1,16 +1,10 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:challenge_u/classes/Utils.dart';
-import 'package:challenge_u/main.dart';
 import 'package:challenge_u/widgets/appWidgets/overview/overview.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-import '../../classes/userChallengeU.dart';
 
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({super.key});
@@ -37,7 +31,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
       if (!_isEmailVerified) {
         sendVerifyEmail();
 
-        timer = Timer.periodic(Duration(seconds: 3), (_) => checkEmailStatus());
+        timer = Timer.periodic(const Duration(seconds: 3), (_) => checkEmailStatus());
       }
     });
   }
@@ -60,7 +54,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
       setState(() {
         canResent = false;
       });
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 5));
       setState(() {
         canResent = true;
       });
@@ -94,11 +88,11 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       Icons.email,
                       size: 20,
                     ),
-                    label: Text('Resent Email'),
+                    label: const Text('Resent Email'),
                   ),
                   TextButton(
                       onPressed: () => FirebaseAuth.instance.signOut(),
-                      child: Text('Cancel'))
+                      child: const Text('Cancel'))
                 ],
               ),
             ),

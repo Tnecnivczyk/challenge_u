@@ -29,13 +29,15 @@ class MyApp extends StatelessWidget {
       darkTheme:
           FlexColorScheme.dark(scheme: FlexScheme.money, useMaterial3: true)
               .toTheme,
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
 
 // The main widget of the app, representing the homepage.
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -53,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text('Something went wrong'),
           );
         } else {
-          return signInSignUpManager();
+          return const signInSignUpManager();
         }
       },
     );

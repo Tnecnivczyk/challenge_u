@@ -1,14 +1,17 @@
-import 'package:challenge_u/classes/sport.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Training {
   String sportName;
   double reps;
+  double meters;
+  double minutes;
+  double kilograms;
   DateTime date;
   String id;
 
-  Training(this.sportName, this.reps, this.date, this.id);
+  Training(this.sportName, this.reps, this.meters, this.minutes, this.kilograms,
+      this.date, this.id);
 
   // Adds a new training and updates the challenges accordingly.
   void createTraining() {
@@ -27,9 +30,10 @@ class Training {
         .collection('users')
         .doc(userId)
         .collection('trainings')
+        .orderBy("date")
         .snapshots()
         .map(
-          (snapshot) => snapshot.docs
+          (snapshot) => snapshot.docs.reversed
               .map(
                 (doc) => Training.fromMap(
                   doc.data(),
@@ -39,7 +43,7 @@ class Training {
         );
   }
 
-  static void deleteTraining(String id) {
+  void deleteTraining() {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     FirebaseFirestore.instance
         .collection('users')
@@ -54,14 +58,20 @@ class Training {
       'id': id,
       'date': date.toString(),
       'sportName': sportName,
-      'reps': reps.toInt(),
+      'reps': reps,
+      'meters': meters,
+      'minutes': minutes,
+      'kilograms': kilograms,
     };
   }
 
   static Training fromMap(Map<String, dynamic> map) {
     return Training(
       map['sportName'],
-      double.parse(map['reps'].toString()),
+      map['reps'],
+      map['meters'],
+      map['minutes'],
+      map['kilograms'],
       DateTime.parse(map['date']),
       map['id'],
     );

@@ -1,34 +1,32 @@
-import 'package:challenge_u/widgets/appWidgets/add/addChallengeBottomSheet.dart';
+import 'package:challenge_u/widgets/appWidgets/navigationBarBottom.dart';
 import 'package:challenge_u/widgets/appWidgets/overview/challengeOverview.dart';
+import 'package:challenge_u/widgets/appWidgets/overview/goalOverview.dart';
 import 'package:challenge_u/widgets/appWidgets/overview/listOfTrainings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:week_of_year/week_of_year.dart';
-import 'package:firebase_core/firebase_core.dart';
 
-import '../../../classes/sport.dart';
-import '../../../classes/goal.dart';
 import '../../../classes/challenge.dart';
 import '../../../classes/training.dart';
 
+import 'invitationsWidget.dart';
 import 'weeklyProgress.dart';
-import '../add/addTrainingBottomSheet.dart';
-import '../add/add.dart';
-import '../profile/profile.dart';
+import '../add/addTraining.dart';
 
 class Overview extends StatelessWidget {
   const Overview({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MyHomePage();
+    return const MyHomePage();
   }
 }
 
 // The main widget of the app, representing the homepage.
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -48,134 +46,135 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _openAdd(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) {
-          return Add();
-        },
-      ),
-    );
-  }
-
-  void _openProfile(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) {
-          return Profile();
-        },
-      ),
-    );
-  }
-
   // Opens the bottom sheet to enter a training.
   void _openTrainingBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
+    Navigator.of(context).push(
+      MaterialPageRoute(
         builder: (_) {
-          return AddTrainingBottomSheet();
-        });
+          return const AddTraining();
+        },
+      ),
+    );
+  }
+
+  void _openMesseges() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) {
+          return const InvitationsWidget();
+        },
+      ),
+    );
+  }
+
+  Stream<int> readMessageCounter() {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('invitations')
+        .doc('count')
+        .snapshots()
+        .map((invitations) {
+      if (invitations.data() != null) {
+        return invitations.data()!['count'];
+      }
+      return 0;
+    });
   }
 
   // Adds a new challenge.
-  Future<void> _addNewChallenge(String challengeName, List<Goal> goals) async {
-    Challenge challenge = Challenge(challengeName, DateTime.now().toString());
-    // Insert a new challenge into the database
-    final userId = FirebaseAuth.instance.currentUser!.uid;
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
-        .collection('challenges')
-        .add(challenge.toMap());
-    //Adds als goals to the new Challenge
-    for (Goal goal in goals) {
-      // Set the challengeID of the goal to the ID of the challenge
-      goal.challengeID = challenge.id;
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .collection('challenges')
-          .doc(challenge.id)
-          .collection('goals')
-          .add(goal.toMap());
-    }
-  }
 
   // Removes a training by its ID.
   // Updates the challenges by updating the number of days the goal was reached.
-  void _removeTraining(String id) {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
-        .collection('trainings')
-        .doc(id)
-        .delete();
-  }
-
-  // Removes a training by its ID.
-  // Updates the challenges by updating the number of days the goal was reached.
-  void _removeChallenge(String id) {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
-        .collection('challenges')
-        .doc(id)
-        .delete();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Challenge U"),
+        title: const Text("Challenge U"),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 20,
+            ),
+            child: StreamBuilder(
+              stream: readMessageCounter(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return const Text('something went wrong');
+                }
+                if (!snapshot.hasData) {
+                  return const CircularProgressIndicator();
+                }
+                int count = snapshot.data!;
+                return GestureDetector(
+                  onTap: count == 0 ? null : _openMesseges,
+                  child: Stack(
+                    children: [
+                      Icon(
+                        Icons.message_rounded,
+                        size: 30,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      Positioned(
+                        right: 0.0,
+                        bottom: 0.0,
+                        child: Container(
+                          padding: const EdgeInsets.all(4.0),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: count == 0
+                                ? Theme.of(context).colorScheme.onBackground
+                                : Theme.of(context).colorScheme.error,
+                          ),
+                          child: Text(
+                            '$count',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.background,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          )
+        ],
       ),
+
       // The main content of the app, shown in a Column widget.
       body: SingleChildScrollView(
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             // Displays the progress of the current week.
             WeeklyProgress(_challenges, _currentTrainings),
+            const SizedBox(
+              height: 5,
+            ),
             // Displays the overview of all challenges.
-            ChallengeOverview(),
+            const ChallengeOverview(),
+            const SizedBox(
+              height: 5,
+            ),
+            // Displays the list of the weekly goals.
+            const GoalOverview(),
+            const SizedBox(
+              height: 5,
+            ),
             // Displays the list of all trainings.
-            ListOfTrainings(_removeTraining),
+            const ListOfTrainings(),
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Theme.of(context).colorScheme.primary,
-        child: IconTheme(
-          data: IconThemeData(color: Theme.of(context).colorScheme.primary),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                  onPressed: null,
-                  icon: Icon(
-                    Icons.home,
-                    color: Theme.of(context).colorScheme.background,
-                  )),
-              IconButton(
-                  onPressed: () => _openAdd(context),
-                  icon: Icon(
-                    Icons.add,
-                    color: Theme.of(context).colorScheme.background,
-                  )),
-              IconButton(
-                  onPressed: () => _openProfile(context),
-                  icon: Icon(
-                    Icons.person,
-                    color: Theme.of(context).colorScheme.background,
-                  )),
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: NavigationBarBottom('overview'),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openTrainingBottomSheet(context),
         child: const Icon(Icons.add),
