@@ -1,2 +1,3 @@
 # challenge_u
-Die erste von vielen Apps
+Eine Fitness- / Social Mediaplattform.
+Dieses Projekt dient zum ausprobieren der Frotententwicklung, Verküpfung mit dem Backend und Nutzung verschiedener Google Cloud Dienste.
